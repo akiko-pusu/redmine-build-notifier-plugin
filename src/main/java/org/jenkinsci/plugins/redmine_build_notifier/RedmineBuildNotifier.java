@@ -8,8 +8,10 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
 import hudson.tasks.Publisher;
+import hudson.util.FormValidation;
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
 
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -116,6 +118,14 @@ public class RedmineBuildNotifier extends Notifier {
 	@Extension
 	public static final class DescriptorImpl extends
 			BuildStepDescriptor<Publisher> {
+
+        /* Form validation */
+        public FormValidation doCheckRedmineUrl(@QueryParameter String value) {
+            if (value == null || value == "") {
+                return FormValidation.error(Messages.redmineUrl_required());
+            }
+            return FormValidation.ok();
+        }
 
 		@Override
 		public boolean isApplicable(Class<? extends AbstractProject> jobType) {
