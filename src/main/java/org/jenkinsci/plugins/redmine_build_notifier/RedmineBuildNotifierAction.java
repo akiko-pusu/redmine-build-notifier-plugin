@@ -19,7 +19,7 @@ public class RedmineBuildNotifierAction implements Action {
 
     @Override
     public String getIconFileName() {
-        return "document.gif";
+        return "/plugin/redmine_build_notifier/ticket_note.png";
     }
 
     @Override
