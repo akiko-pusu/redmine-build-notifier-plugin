@@ -1,8 +1,7 @@
 Redmine Build Notifier plugin
 ===========================
 
-Jenkins plugin to add link to target Redmine issue for each build, and post build summary to
-target issue.
+Jenkins plugin to add the link to target issue of Redmine, and post build summary to target issue.
 
 What's this?
 -------------
@@ -23,4 +22,6 @@ TODO
 ----
 
 * So many...
+* Code should be more simplified, and refactored not to use Redmine Java API in view of the perpose of this plugin...
+* Write much better documentation in English..
 

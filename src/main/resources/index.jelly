@@ -2,5 +2,6 @@
   This view is used to render the installed plugins page.
 -->
 <div>
-  This plugin is a sample to explain how to write a Jenkins plugin.
+  Jenkins plugin to add the link to target issue of Redmine, and post build summary to
+  target issue.
 </div>
