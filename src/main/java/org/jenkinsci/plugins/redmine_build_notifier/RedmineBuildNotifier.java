@@ -41,7 +41,7 @@ public class RedmineBuildNotifier extends Notifier {
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
     @DataBoundConstructor
     public RedmineBuildNotifier(String redmineUrl, String redmineApiKey, String shouldPost) {
-        if (redmineUrl == null) throw new IllegalArgumentException("Redmine URL cannot be null");
+        if (redmineUrl == null) throw new IllegalArgumentException(Messages.redmineUrl_required());
         this.redmineUrl = redmineUrl;
         this.redmineApiKey = redmineApiKey;
         this.shouldPost = shouldPost;
@@ -90,6 +90,8 @@ public class RedmineBuildNotifier extends Notifier {
                             "[RedmineBuildNotifier] Redmine IssueID not specified. Skip post build task.");
             return true;
         }
+
+        // TODO: Enabled to choice the situation of build to post comment to target issue. (E.g. In case success only..)
 
         // Do Post
         RedmineManager mgr = new RedmineManager(redmineUrl, redmineApiKey);
@@ -149,6 +151,7 @@ public class RedmineBuildNotifier extends Notifier {
         return issue.getSubject();
     }
 
+    // TODO: Refacoring... String so many.
     private static String generatePostMessage(AbstractBuild<?, ?> build) throws IOException,InterruptedException {
         String projectName = build.getProject().getName();
         String result = build.getResult().toString();

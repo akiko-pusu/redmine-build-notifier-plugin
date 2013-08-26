@@ -22,6 +22,7 @@ TODO
 ----
 
 * So many...
+* Enabled to choice the situation of build to post comment to target issue. (E.g. In case success only..)
 * Code should be more simplified, and refactored not to use Redmine Java API in view of the perpose of this plugin...
 * Write much better documentation in English..
 
