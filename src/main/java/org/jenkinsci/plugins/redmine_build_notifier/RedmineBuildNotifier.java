@@ -36,7 +36,7 @@ public class RedmineBuildNotifier extends Notifier {
 
     // TODO: Enable to customize of post message. Now default Redmine wiki formatting.
     private static final String REPORT_FORMAT
-            = "h3. %s\n\nJOB_NAME: %s\nBUILD_RESULT: %s\nCAUSE: %s\nBUID_ID: #%d%s\n";
+            = "h3. %s\n\nJOB_NAME: %s\nBUILD_RESULT: %s\nCAUSE: %s\nBUID_ID: %d%s\nDuration: %s\n";
 
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
     @DataBoundConstructor
@@ -155,6 +155,7 @@ public class RedmineBuildNotifier extends Notifier {
     private static String generatePostMessage(AbstractBuild<?, ?> build) throws IOException,InterruptedException {
         String projectName = build.getProject().getName();
         String result = build.getResult().toString();
+        String duration = build.getDurationString();
 
         EnvVars envVars = build.getEnvironment(TaskListener.NULL);
         String buildUrl = envVars.get("BUILD_URL");
@@ -175,9 +176,8 @@ public class RedmineBuildNotifier extends Notifier {
         String header;
         header = Messages.header();
 
-        // TODO: Add build time with summary.
         return String.format(REPORT_FORMAT, header, projectName,result,causeStr,
-                build.number, buildUrl);
+                build.number, buildUrl, duration);
     }
 
     private static String formatCauses(List<Cause> causes) {
