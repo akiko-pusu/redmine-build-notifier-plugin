@@ -175,6 +175,7 @@ public class RedmineBuildNotifier extends Notifier {
         String header;
         header = Messages.header();
 
+        // TODO: Add build time with summary.
         return String.format(REPORT_FORMAT, header, projectName,result,causeStr,
                 build.number, buildUrl);
     }
