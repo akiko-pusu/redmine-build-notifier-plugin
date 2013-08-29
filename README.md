@@ -3,7 +3,7 @@ Redmine Build Notifier plugin
 
 Jenkins plugin to add the link to target issue of Redmine, and post build summary to target issue.
 
-What's this?
+What's different about other plugins?
 -------------
 
 Redmine Build Notifier is a [Jenkins](http://jenkins-ci.org/) plugin.
@@ -13,7 +13,7 @@ changeset info to integrate Jenkins and Redmine.
 
 On one hand, this plugin aims to enable Jenkins build result to associate with target Redmine issue, in case no changeset, no SCM.
 
-Basic Feature
+Basic features
 -------------
 
 This plugin provides a post-build step to add link to target issue.

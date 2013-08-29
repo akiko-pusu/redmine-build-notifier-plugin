@@ -158,10 +158,9 @@ public class RedmineBuildNotifier extends Notifier {
 			return true;
 		}
 
-
 		@Override
 		public String getDisplayName() {
-			return "Post result for Redmine";
+			return Messages.redmine_build_notifier();
 		}
 	}
 

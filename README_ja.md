@@ -4,7 +4,7 @@ Redmine Build Notifier plugin
 このプラグインは、ビルドの結果を、Redmineの指定のチケットと関連付けするためのプラグインです。
 また、ビルドのサマリをRedmineの指定のチケットにコメントとしてPOSTします。
 
-どんなものですか？
+どんな特徴があるの？
 -------------
 
 Redmine Build Notifier は、 [Jenkins](http://jenkins-ci.org/) のプラグインです。
