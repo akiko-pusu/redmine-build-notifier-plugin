@@ -175,7 +175,7 @@ public class RedmineBuildNotifier extends Notifier {
     }
 
     // TODO: Refacoring... String so many.
-    private static String generatePostMessage(AbstractBuild<?, ?> build) throws IOException,InterruptedException {
+    private String generatePostMessage(AbstractBuild<?, ?> build) throws IOException,InterruptedException {
         String projectName = build.getProject().getName();
         String result = build.getResult().toString();
         String duration = build.getDurationString();
@@ -196,8 +196,7 @@ public class RedmineBuildNotifier extends Notifier {
         }
 
         String causeStr = formatCauses(causes);
-        String header;
-        header = Messages.header();
+        String header = Messages.header();
 
         return String.format(REPORT_FORMAT, header, projectName,result,causeStr,
                 build.number, buildUrl, duration);
