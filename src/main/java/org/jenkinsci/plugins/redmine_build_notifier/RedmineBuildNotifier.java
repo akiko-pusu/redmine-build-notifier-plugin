@@ -1,7 +1,11 @@
 package org.jenkinsci.plugins.redmine_build_notifier;
 
-import com.taskadapter.redmineapi.bean.*;
+/* Redmine Java API */
+import com.taskadapter.redmineapi.RedmineException;
+import com.taskadapter.redmineapi.RedmineManager;
+import com.taskadapter.redmineapi.bean.Issue;
 import com.taskadapter.redmineapi.bean.User;
+
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.Launcher;
@@ -15,22 +19,17 @@ import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
+import javax.servlet.ServletException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 
-/* Redmine Java API */
-import com.taskadapter.redmineapi.RedmineException;
-import com.taskadapter.redmineapi.RedmineManager;
-import com.taskadapter.redmineapi.bean.Issue;
-
-import javax.servlet.ServletException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 /**
- * Notifier that add link to target issue and posts build summary to target issue on Redmine.
+ * Notifier that add link to target issue and posts build summary to
+ * target issue on Redmine.
  *
  * @author akiko_pusu
  */
@@ -47,7 +46,9 @@ public class RedmineBuildNotifier extends Notifier {
     // Fields in config.jelly must match the parameter names in the "DataBoundConstructor"
     @DataBoundConstructor
     public RedmineBuildNotifier(String redmineUrl, String redmineApiKey, String shouldPost) {
-        if (redmineUrl == null) throw new IllegalArgumentException(Messages.redmineUrl_required());
+        if (redmineUrl == null) {
+            throw new IllegalArgumentException(Messages.redmineUrl_required());
+        }
         this.redmineUrl = redmineUrl;
         this.redmineApiKey = redmineApiKey;
         this.shouldPost = shouldPost;
@@ -75,7 +76,7 @@ public class RedmineBuildNotifier extends Notifier {
 
     @Override
     public DescriptorImpl getDescriptor() {
-        return (DescriptorImpl)super.getDescriptor();
+        return (DescriptorImpl) super.getDescriptor();
     }
 
     public BuildStepMonitor getRequiredMonitorService() {
@@ -103,7 +104,7 @@ public class RedmineBuildNotifier extends Notifier {
         RedmineManager mgr = new RedmineManager(redmineUrl, redmineApiKey);
         StringBuffer postResult = new StringBuffer();
         try {
-            postResult.append(tryGetIssues(mgr,Integer.valueOf(redmineIssueID),generatePostMessage(build)));
+            postResult.append(tryGetIssues(mgr, Integer.valueOf(redmineIssueID), generatePostMessage(build)));
 
             /* Add sidebar link to redmine if success */
             RedmineBuildNotifierAction rpa = new RedmineBuildNotifierAction();
@@ -175,7 +176,8 @@ public class RedmineBuildNotifier extends Notifier {
     }
 
     // TODO: Refacoring... String so many.
-    private String generatePostMessage(AbstractBuild<?, ?> build) throws IOException,InterruptedException {
+    private String generatePostMessage(AbstractBuild<?, ?> build)
+            throws IOException, InterruptedException {
         String projectName = build.getProject().getName();
         String result = build.getResult().toString();
         String duration = build.getDurationString();
@@ -198,7 +200,7 @@ public class RedmineBuildNotifier extends Notifier {
         String causeStr = formatCauses(causes);
         String header = Messages.header();
 
-        return String.format(REPORT_FORMAT, header, projectName,result,causeStr,
+        return String.format(REPORT_FORMAT, header, projectName, result, causeStr,
                 build.number, buildUrl, duration);
     }
 
