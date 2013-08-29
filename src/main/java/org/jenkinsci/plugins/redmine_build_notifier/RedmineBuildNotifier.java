@@ -1,5 +1,7 @@
 package org.jenkinsci.plugins.redmine_build_notifier;
 
+import com.taskadapter.redmineapi.bean.*;
+import com.taskadapter.redmineapi.bean.User;
 import hudson.EnvVars;
 import hudson.Extension;
 import hudson.Launcher;
@@ -22,6 +24,10 @@ import java.util.List;
 import com.taskadapter.redmineapi.RedmineException;
 import com.taskadapter.redmineapi.RedmineManager;
 import com.taskadapter.redmineapi.bean.Issue;
+
+import javax.servlet.ServletException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Notifier that add link to target issue and posts build summary to target issue on Redmine.
@@ -126,7 +132,25 @@ public class RedmineBuildNotifier extends Notifier {
             if (value == null || value == "") {
                 return FormValidation.error(Messages.redmineUrl_required());
             }
+            try {
+                new URL(value);
+            } catch (MalformedURLException e) {
+                return FormValidation.error(Messages.redmineUrl_required());
+            }
             return FormValidation.ok();
+        }
+
+        /* Form validation */
+        public FormValidation doTestConnection(@QueryParameter("redmineUrl") final String redmineUrl,
+                                               @QueryParameter("redmineApiKey") final String redmineApiKey) throws IOException, ServletException {
+            try {
+                RedmineManager mgr = new RedmineManager(redmineUrl, redmineApiKey);
+                User u = mgr.getCurrentUser();
+                u.getFirstName();
+                return FormValidation.ok("Success: Connected as " + u.getLogin());
+            } catch (Exception e) {
+                return FormValidation.error("Client error : " + e.getMessage());
+            }
         }
 
 		@Override

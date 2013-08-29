@@ -18,4 +18,8 @@
     <f:entry title="Post Result to Target Issue" field="shouldPost">
         <f:checkbox name="shouldPost"/>
     </f:entry>
+    <f:validateButton
+            title="${%Test Connection}" progress="${%Testing...}"
+            method="testConnection" with="redmineUrl,redmineApiKey">
+    </f:validateButton>
 </j:jelly>
