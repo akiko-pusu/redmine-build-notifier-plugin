@@ -27,6 +27,14 @@ Redmine Build Notifier は、 [Jenkins](http://jenkins-ci.org/) のプラグイ�
 * チケットとの関連付けが明示されると、ビルドの左サイドバーに、チケットへのリンクが生成されます。
 * 設定画面で、ビルド結果をチケットにPOSTするにチェックを入れると、チケットにもビルドのサマリがコメントとしてPOSTされます。
 
+Requirements
+-------------
+**redmine-java-api** (Included as dependencies)
+
+**Enabled Redmine API**
+
+RedmineのAPI機能を有効にする必要があります。また、JSONPのオプションもチェックして下さい。
+
 TODO
 ----
 

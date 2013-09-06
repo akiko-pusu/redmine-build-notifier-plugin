@@ -9,9 +9,9 @@ What's different about other plugins?
 Redmine Build Notifier is a [Jenkins](http://jenkins-ci.org/) plugin.
 
 As you know, [Redmine plugin](https://wiki.jenkins-ci.org/display/JENKINS/Redmine+Plugin) for Jenkins already exists, but Redmine plugin needs
-changeset info to integrate Jenkins and Redmine.
+commit info to integrate Jenkins and Redmine.
 
-On one hand, this plugin aims to enable Jenkins build result to associate with target Redmine issue, in case no changeset, no SCM.
+On one hand, this plugin aims to enable Jenkins build result to associate with target Redmine issue, in case no commits, no SCM.
 
 Basic features
 -------------
@@ -22,8 +22,18 @@ And to post build summary to target issue via Redmine API. (Optionally)
 * You can associate a build with target Remine issue, passed as environment variable named
 * "REDMINE_ISSUE_ID", though target Redmine project has no SCM.
 * And you can set REDMINE_ISSUE_ID via build parameter.
-* If a build related to issue, likn to target issue is shown at left side.
+* If a build related to issue, link to target issue is shown at left side.
 * Optionally, you can post build summary to target issue via Redmine API.
+
+Requirements
+-------------
+**redmine-java-api** (Included as dependencies)
+
+**Enabled Redmine API**
+
+To enable the API-style authentication, you have to check Enable REST API with JSONP option,
+in Administration -> Settings -> Authentication.
+
 
 TODO
 ----
