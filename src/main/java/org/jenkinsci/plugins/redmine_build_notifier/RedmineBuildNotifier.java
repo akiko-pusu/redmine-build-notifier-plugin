@@ -3,8 +3,11 @@ package org.jenkinsci.plugins.redmine_build_notifier;
 /* Redmine Java API */
 import com.taskadapter.redmineapi.RedmineException;
 import com.taskadapter.redmineapi.RedmineManager;
+import com.taskadapter.redmineapi.RedmineManagerFactory;
 import com.taskadapter.redmineapi.bean.Issue;
+import com.taskadapter.redmineapi.IssueManager;
 import com.taskadapter.redmineapi.bean.User;
+import com.taskadapter.redmineapi.UserManager;
 
 import hudson.EnvVars;
 import hudson.Extension;
@@ -101,7 +104,7 @@ public class RedmineBuildNotifier extends Notifier {
         // TODO: Enabled to choice the situation of build to post comment to target issue. (E.g. In case success only..)
 
         // Do Post
-        RedmineManager mgr = new RedmineManager(redmineUrl, redmineApiKey);
+        RedmineManager mgr = RedmineManagerFactory.createWithApiKey(redmineUrl, redmineApiKey);
         StringBuffer postResult = new StringBuffer();
         try {
             postResult.append(tryGetIssues(mgr, Integer.valueOf(redmineIssueID), generatePostMessage(build)));
@@ -145,8 +148,8 @@ public class RedmineBuildNotifier extends Notifier {
         public FormValidation doTestConnection(@QueryParameter("redmineUrl") final String redmineUrl,
                                                @QueryParameter("redmineApiKey") final String redmineApiKey) throws IOException, ServletException {
             try {
-                RedmineManager mgr = new RedmineManager(redmineUrl, redmineApiKey);
-                User u = mgr.getCurrentUser();
+                RedmineManager mgr = RedmineManagerFactory.createWithApiKey(redmineUrl, redmineApiKey);
+                User u = mgr.getUserManager().getCurrentUser();
                 u.getFirstName();
                 return FormValidation.ok("Success: Connected as " + u.getLogin());
             } catch (Exception e) {
@@ -167,10 +170,11 @@ public class RedmineBuildNotifier extends Notifier {
 
     /* For Redmine Code */
     private String tryGetIssues(RedmineManager mgr, Integer issueId, String note) throws Exception {
-        Issue issue = mgr.getIssueById(issueId);
+        IssueManager imgr = mgr.getIssueManager();
+        Issue issue = imgr.getIssueById(issueId);
         if (this.shouldPost == "true") {
             issue.setNotes(note);
-            mgr.update(issue);
+            imgr.update(issue);
         }
         return issue.getSubject();
     }
